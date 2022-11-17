@@ -1,39 +1,56 @@
 import streamlit as st
-from datetime import time, datetime
+import pandas as pd
+import numpy as np
+import seaborn as sns
 
-st.header('st.slider')
+df_iris = sns.load_dataset('iris')
+df_peng = sns.load_dataset('penguins')
+df_peng.dropna(inplace=True)
 
-# Example 1
+dataset_selection = st.selectbox('Select Dataset to View',
+             ('Iris', 'Penguin'))
 
-st.subheader('Slider')
+if dataset_selection == 'Iris':
+    setosa = pd.DataFrame(df_iris.loc[df_iris['species'] == 'setosa'],
+                          columns=['sepal_length', 'sepal_width'])
+    versicolor = pd.DataFrame(df_iris.loc[df_iris['species'] == 'versicolor'],
+                              columns=['sepal_length', 'sepal_width'])
+    virginica = pd.DataFrame(df_iris.loc[df_iris['species'] == 'virginica'],
+                             columns=['sepal_length', 'sepal_width'])
 
-age = st.slider('How old are you?', 0, 130, 25)
-st.write("I'm ", age, 'years old')
+    add_selectbox = st.sidebar.selectbox(
+        "Which species would you like to view?",
+        ("Setosa", "Versicolor", "Virginica")
+    )
 
-# Example 2
+    st.header(add_selectbox)
 
-st.subheader('Range slider')
+    if add_selectbox == 'Setosa':
+        st.dataframe(setosa, width=700)
+        st.line_chart(setosa)
+    if add_selectbox == 'Versicolor':
+        st.dataframe(versicolor, width=700)
+        st.line_chart(versicolor)
+    if add_selectbox == 'Virginica':
+        st.dataframe(virginica, width=700)
+        st.line_chart(virginica)
 
-values = st.slider(
-     'Select a range of values',
-     0.0, 100.0, (25.0, 75.0))
-st.write('Values:', values)
+if dataset_selection == 'Penguin':
+    M = pd.DataFrame(df_peng.loc[df_peng['sex'] == 'Male'],
+                     columns=['flipper_length_mm', 'bill_length_mm'])
+    F = pd.DataFrame(df_peng.loc[df_peng['sex'] == 'Female'],
+                     columns=['flipper_length_mm', 'bill_length_mm'])
+    
+    add_selectbox = st.sidebar.selectbox(
+        "Which sex would you like to view?",
+        ("Male", "Female")
+    )
 
-# Example 3
-
-st.subheader('Range time slider')
-
-appointment = st.slider(
-     "Schedule your appointment:",
-     value=(time(11, 30), time(12, 45)))
-st.write("You're scheduled for:", appointment)
-
-# Example 4
-
-st.subheader('Datetime slider')
-
-start_time = st.slider(
-     "When do you start?",
-     value=datetime(2020, 1, 1, 9, 30),
-     format="MM/DD/YY - hh:mm")
-st.write("Start time:", start_time)
+    st.header(add_selectbox)
+    
+    if add_selectbox == "Male":
+        st.dataframe(M)
+        st.line_chart(M)
+    if add_selectbox == "Female":
+        st.dataframe(F)
+        st.line_chart(F)
