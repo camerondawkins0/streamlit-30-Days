@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import seaborn as sns
 from data import df_peng, df_iris
 
 df_peng.dropna(inplace=True)
@@ -8,6 +9,8 @@ dataset_selection = st.selectbox('Select Dataset to View',
              ('Iris', 'Penguin'))
 
 if dataset_selection == 'Iris':
+    fig = plt.figure(figsize=(8,8))
+    sns.line
     setosa = pd.DataFrame(df_iris.loc[df_iris['species'] == 'setosa'],
                           columns=['sepal_length', 'sepal_width'])
     versicolor = pd.DataFrame(df_iris.loc[df_iris['species'] == 'versicolor'],
