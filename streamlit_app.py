@@ -1,10 +1,7 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import seaborn as sns
+from data import df_peng, df_iris
 
-df_iris = sns.load_dataset('iris')
-df_peng = sns.load_dataset('penguins')
 df_peng.dropna(inplace=True)
 
 dataset_selection = st.selectbox('Select Dataset to View',
